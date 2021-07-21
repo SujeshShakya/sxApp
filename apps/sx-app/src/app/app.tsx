@@ -18,7 +18,6 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-import { connect } from 'react-redux';
 
 class App extends React.Component {
   render(): React.ReactNode {

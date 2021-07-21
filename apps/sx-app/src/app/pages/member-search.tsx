@@ -18,6 +18,9 @@ import './member-search.scss';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { getMembers } from '../../utils/util';
+import { useDispatch } from 'react-redux';
+import { setMemberSearch } from '../../actions';
 
 const schema = yup.object().shape({
   serviceDate: yup.date().required('This is a required field'),
@@ -25,6 +28,7 @@ const schema = yup.object().shape({
 });
 
 export const MemberSearch: React.FC = (): ReactElement => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const {
     handleSubmit,
@@ -39,7 +43,11 @@ export const MemberSearch: React.FC = (): ReactElement => {
   });
   const onSubmit = (data): void => {
     //call API
-    // alert(JSON.stringify(data));
+    getMembers(data.policyNumber).then((response) => {
+      // alert(JSON.stringify(response));
+      dispatch(setMemberSearch(response));
+    });
+
     history.push('/member/searchresults');
   };
 
