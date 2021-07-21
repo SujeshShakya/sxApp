@@ -45,7 +45,7 @@ export const MemberSearch: React.FC = (): ReactElement => {
     //call API
     getMembers(data.policyNumber).then((response) => {
       // alert(JSON.stringify(response));
-      dispatch(setMemberSearch(response));
+      dispatch(setMemberSearch(JSON.parse(response.data)));
     });
 
     history.push('/member/searchresults');
