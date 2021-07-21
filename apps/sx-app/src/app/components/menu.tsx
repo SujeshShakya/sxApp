@@ -1,12 +1,13 @@
 import {
+  IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
-  IonListHeader,
   IonMenu,
+  IonMenuButton,
   IonMenuToggle,
   IonTitle,
   IonToolbar,
@@ -32,25 +33,19 @@ export const MainMenu: React.FC = () => {
       .filter((route) => !!route.path)
       .map((p) => (
         <IonMenuToggle key={p.title} auto-hide="false">
-          <IonItem
-            detail={false}
-            routerLink={p.path}
-            routerDirection="none"
-            // className={
-            //   location.pathname.startsWith(p.path) ? 'selected' : undefined
-            // }
-          >
-            <IonIcon slot="start" />
+          <IonItem detail={false} routerLink={p.path} routerDirection="none">
             <IonLabel>{p.title}</IonLabel>
           </IonItem>
         </IonMenuToggle>
       ));
   };
   return (
-    <IonMenu>
+    <IonMenu type="overlay" disabled={false} contentId="main">
       <IonHeader>
         <IonToolbar>
-          <IonIcon slot="start" />
+          <IonButtons slot="end">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle color="primary">Menu</IonTitle>
         </IonToolbar>
       </IonHeader>

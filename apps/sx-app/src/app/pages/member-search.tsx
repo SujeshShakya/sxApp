@@ -1,11 +1,13 @@
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonDatetime,
   IonHeader,
   IonInput,
   IonItem,
   IonLabel,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -29,6 +31,7 @@ export const MemberSearch: React.FC = (): ReactElement => {
     control,
     register,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {},
@@ -40,11 +43,18 @@ export const MemberSearch: React.FC = (): ReactElement => {
     history.push('/member/searchresults');
   };
 
+  const handleReset = () => {
+    reset();
+  };
+
   console.log(watch());
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Member Search</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -52,16 +62,6 @@ export const MemberSearch: React.FC = (): ReactElement => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <IonItem lines="none">
             <IonLabel>Service Date</IonLabel>
-            {/* <IonDatetime
-              {...register('serviceDate')}
-              onIonChange={(e) => {
-                //do something
-              }}
-              displayFormat={'DD MM YYYY'}
-              value={''}
-              placeholder={'Enter Date'}
-              readonly={false}
-            /> */}
             <input type="date" {...register('serviceDate')}></input>
             {errors.serviceDate && <p>{errors.serviceDate?.message}</p>}
           </IonItem>
@@ -76,21 +76,12 @@ export const MemberSearch: React.FC = (): ReactElement => {
           </IonItem>
           <IonItem lines="none">
             <IonLabel>Member Card Number</IonLabel>
-            <IonInput
-              onIonInput={(e) => {
-                //do something
-              }}
-              value={''}
-              onIonChange={() => {
-                //do something
-              }}
-              placeholder={'Enter Member Card Number'}
-            />
+            <input {...register('memberCardNumber')}></input>
           </IonItem>
 
           <IonItem>
             <IonButton type="submit">Search</IonButton>
-            <IonButton>Reset</IonButton>
+            <IonButton onClick={handleReset}>Reset</IonButton>
           </IonItem>
         </form>
       </IonContent>
