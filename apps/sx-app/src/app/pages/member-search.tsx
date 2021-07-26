@@ -18,7 +18,7 @@ import './member-search.scss';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { getMembers } from '../../utils/util';
+import { getMemberList } from '../../utils/util';
 import { useDispatch } from 'react-redux';
 import { setMemberSearch } from '../../actions';
 
@@ -27,6 +27,11 @@ const schema = yup.object().shape({
   policyNumber: yup.number().required('This is a required field'),
 });
 
+const formState = {
+  serviceDate: new Date(),
+  policyNumber: '',
+};
+
 export const MemberSearch: React.FC = (): ReactElement => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -34,17 +39,14 @@ export const MemberSearch: React.FC = (): ReactElement => {
     handleSubmit,
     control,
     register,
-    watch,
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: {},
     resolver: yupResolver(schema),
   });
   const onSubmit = (data): void => {
     //call API
-    getMembers(data.policyNumber).then((response) => {
-      // alert(JSON.stringify(response));
+    getMemberList(data.policyNumber).then((response) => {
       dispatch(setMemberSearch(JSON.parse(response.data)));
     });
 
@@ -55,7 +57,6 @@ export const MemberSearch: React.FC = (): ReactElement => {
     reset();
   };
 
-  console.log(watch());
   return (
     <IonPage>
       <IonHeader>
@@ -79,7 +80,15 @@ export const MemberSearch: React.FC = (): ReactElement => {
 
           <IonItem lines="none">
             <IonLabel>Policy Number</IonLabel>
-            <input {...register('policyNumber')}></input>
+            <input
+              {...register('policyNumber', {
+                required: 'This is required',
+                pattern: {
+                  value: /^(0|[1-9][0-9]*)$/,
+                  message: 'Please enter a number',
+                },
+              })}
+            ></input>
             {errors.policyNumber && <p>{errors.policyNumber?.message}</p>}
           </IonItem>
           <IonItem lines="none">

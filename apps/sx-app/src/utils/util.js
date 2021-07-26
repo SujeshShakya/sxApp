@@ -1,4 +1,4 @@
-export function getMembers(policyNumber) {
+export function getMemberList(policyNumber) {
   var url = `https://rcvp3-api.azurewebsites.net/members?policyNumber=${policyNumber}`;
   var response = makeRequest('GET', url)
     .then((r) => {
