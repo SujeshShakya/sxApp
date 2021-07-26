@@ -18,15 +18,19 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
+import { Provider } from 'react-redux';
+import store from '../store/index';
 
 class App extends React.Component {
   render(): React.ReactNode {
     return (
       <IonApp>
-        <IonReactRouter>
-          <Redirect exact path="/" to="/member" />
-          <Route path="/member" component={HubPage} />
-        </IonReactRouter>
+        <Provider store={store}>
+          <IonReactRouter>
+            <Redirect exact path="/" to="/member" />
+            <Route path="/member" component={HubPage} />
+          </IonReactRouter>
+        </Provider>
       </IonApp>
     );
   }
