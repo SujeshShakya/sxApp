@@ -68,7 +68,7 @@ export const MemberSearch: React.FC = (): ReactElement => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} name="memberForm">
           <IonItem lines="none">
             <IonLabel>Service Date</IonLabel>
             <input type="date" {...register('serviceDate')}></input>

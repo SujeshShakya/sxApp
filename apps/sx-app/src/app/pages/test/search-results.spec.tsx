@@ -1,25 +1,51 @@
-import React from 'react';
-import { shallow, configure } from 'enzyme';
+import { Provider } from 'react-redux';
+
 import { SearchResults } from '../search-results';
-import Adapter from 'enzyme-adapter-react-16';
+import configureStore from 'redux-mock-store';
+import { getByText, render } from '@testing-library/react';
 
-configure({ adapter: new Adapter() });
+describe('Search result', () => {
+  const mockStore = configureStore();
+  let store;
 
-function shallowSetup() {
-  // Sample props to pass to our shallow render
+  it('render correctly when no results found', () => {
+    const initialState = { members: [] };
+    store = mockStore(initialState);
 
-  // wrapper instance around rendered output
-  const enzymeWrapper = shallow(<SearchResults />);
+    const { getByText } = render(
+      <Provider store={store}>
+        <SearchResults />
+      </Provider>
+    );
 
-  return {
-    enzymeWrapper,
-  };
-}
+    expect(getByText('No members found')).not.toBeNull();
+  });
 
-describe('Shallow rendered Member Search', () => {
-  it('should render Member Search', () => {
-    const { enzymeWrapper } = shallowSetup();
-    expect(enzymeWrapper.find('.noMembers').hasClass('noMembers')).toBe(true);
-    expect(enzymeWrapper.find('.noMembers').text()).toBe('No members found');
+  it('render correctly when  results found', () => {
+    const initialState = {
+      members: [
+        {
+          id: 1,
+          firstName: 'Winne',
+          lastName: 'Janc',
+          memberCardNumber: '0473128446',
+          policyNumber: '1405677686',
+          dataOfBirth: '26/07/1995',
+        },
+      ],
+    };
+    store = mockStore(initialState);
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <SearchResults />
+      </Provider>
+    );
+
+    expect(getByText('Winne')).not.toBeNull();
+
+    expect(getByText('First Name')).not.toBeNull();
+    expect(getByText('0473128446')).not.toBeNull();
+    expect(getByText('26/07/1995')).not.toBeNull();
   });
 });
